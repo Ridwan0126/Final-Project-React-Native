@@ -1,17 +1,39 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Keranjang} from '../../../assets/Icons';
+import {Kanan, Kembali, Keranjang, Kembali2} from '../../../assets/Icons';
 import {colors} from '../../../utils';
+import TextIcon from './TextIcon';
+import TextOnly from './TextOnly';
+import TombolLoading from './TombolLoading';
 
-const Tombol = ({icon, totalKeranjang, padding}) => {
+const Tombol = props => {
   const Icon = () => {
     if (icon === 'Keranjang') {
       return <Keranjang />;
+    } else if (icon === 'Kembali') {
+      return <Kembali />;
+    } else if (icon === 'KembaliHitam') {
+      return <Kembali2 />;
     }
     return <Keranjang />;
   };
+
+  const {loading, onPress, icon, totalKeranjang, padding, type, tittle} = props;
+
+  if (loading) {
+    return <TombolLoading {...props} />;
+  }
+
+  if (type === 'text') {
+    return <TextOnly {...props} />;
+  } else if (type === 'textIcon') {
+    return <TextIcon {...props} />;
+  } else if (icon === 'submit') {
+    return <Kanan />;
+  }
+
   return (
-    <TouchableOpacity style={styles.container(padding)}>
+    <TouchableOpacity style={styles.container(padding)} onPress={onPress}>
       <Icon />
       {totalKeranjang && (
         <View style={styles.notif}>

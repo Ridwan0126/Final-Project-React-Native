@@ -1,3 +1,5 @@
 import Logo from './logo.svg';
-
-export {Logo};
+import Slider1 from './slider1.png';
+import Slider2 from './slider2.png';
+import ProfileSinchan from './ProfileSinchan.jpg';
+export {Logo, Slider1, Slider2, ProfileSinchan};
