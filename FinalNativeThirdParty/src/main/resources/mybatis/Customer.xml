@@ -1,0 +1,56 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Customer">
+    <!--    <insert id="insertUser" parameterType="com.sefrinaldi.finaljavabe.database.model.User">-->
+    <!--        INSERT INTO USER (FIRSTNAME, LASTNAME, EMAIL, PASSWORD) VALUES-->
+    <!--        (#{firstName}, #{lastName}, #{email}, #{password});-->
+    <!--        <selectKey keyProperty="id" resultType="int" order="AFTER">-->
+    <!--            select last_insert_id() as id-->
+    <!--        </selectKey>-->
+    <!--    </insert>-->
+
+    <resultMap id="result" type="com.model.Customer">
+        <result property="id" column="ID"/>
+        <result property="nama" column="NAME"/>
+        <result property="nop" column="NOTELP"/>
+        <result property="alamat" column="ALAMAT"/>
+        <result property="alamatobjekpajak" column="EMAIL"/>
+        <result property="tahunpembayaran" column="DAYA"/>
+        <result property="jatuhtempopembayaran" column="BULAN"/>
+        <result property="estimasitanggalproses" column="TAHUN"/>
+        <result property="jumlahtagihan" column="TAGIHAN"/>
+        <result property="jenis" column="LAYANAN"/>
+        <result property="status" column="STATUS"/>
+    </resultMap>
+
+    <select id="getInvoice" resultMap="result">
+        SELECT PELANGGAN.*, TAGIHAN.*
+        FROM PELANGGAN
+        INNER JOIN TAGIHAN
+        ON PELANGGAN.ID = TAGIHAN.ID
+        AND PELANGGAN.ID = #{id}
+        WHERE STATUS ="active";
+    </select>
+
+        <select id="getAll" resultMap="result">
+            SELECT * FROM SISWA;
+        </select>
+
+    <select id="getById" parameterType="int" resultMap="result">
+        SELECT * FROM PELANGGAN WHERE ID=#{id};
+    </select>
+
+    <!--    <select id="getByEmailPass" parameterType="String" resultMap="result">-->
+    <!--        SELECT * FROM USER WHERE EMAIL=#{email} AND PASSWORD=#{password};-->
+    <!--    </select>-->
+
+    <!--    <select id="update" parameterType="com.sefrinaldi.assigment.model.Siswa">-->
+    <!--        UPDATE SISWA SET NAME = #{name}, FULLNAME = #{fullname}, ADDRESS = #{address},-->
+    <!--        STATUS = #{status}, PHYSICS = #{physics}, CALCULUS = #{calculus},-->
+    <!--        BIOLOGI = #{biologi} WHERE ID = #{id}-->
+    <!--    </select>-->
+
+    <!--    <select id="deleteById" parameterType="int">-->
+    <!--        DELETE FROM SISWA WHERE ID = #{id};-->
+    <!--    </select>-->
+</mapper>

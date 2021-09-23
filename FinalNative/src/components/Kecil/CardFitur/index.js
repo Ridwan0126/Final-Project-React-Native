@@ -1,16 +1,22 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
 import {colors, responsiveHeight, responsiveWidth} from '../../../utils';
 
-const CardFitur = ({fitur}) => {
+const CardFitur = ({fitur, navigation, id}) => {
+  const toProductByFitur = () => {
+    navigation.navigate('ListProduct');
+  };
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => toProductByFitur(id, fitur.namaFitur)}>
       <Image source={fitur.gambar} style={styles.Fiturs} />
     </TouchableOpacity>
   );
 };
 
-export default CardFitur;
+export default connect()(CardFitur);
 
 const styles = StyleSheet.create({
   container: {
@@ -18,16 +24,17 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 8,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
+
+    elevation: 16,
     padding: 8,
     borderRadius: 15,
   },
   Fiturs: {
-    width: responsiveWidth(25),
-    height: responsiveHeight(35),
+    width: responsiveWidth(35),
+    height: responsiveHeight(45),
   },
 });

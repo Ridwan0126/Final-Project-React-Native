@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, View, Modal} from 'react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
+// import ImageViewer from 'react-native-image-zoom-viewer';
 import {SliderBox} from 'react-native-image-slider-box';
 import {responsiveHeight, colors, responsiveWidth} from '../../../utils';
 
@@ -19,9 +19,8 @@ export default class ProductSlider extends Component {
       openImage: true,
       previewImage: [
         {
-          url: '',
+          url: this.props.images[index],
           props: {
-            // Or you can set source directory.
             source: this.props.images[index],
           },
         },
@@ -32,9 +31,10 @@ export default class ProductSlider extends Component {
   render() {
     const {images} = this.props;
     const {openImage, previewImage} = this.state;
+    console.log('Prew img', previewImage);
     return (
       <View>
-        <SliderBox
+        {/* <SliderBox
           images={images}
           circleLoop
           sliderBoxHeight={responsiveHeight(350)}
@@ -45,7 +45,10 @@ export default class ProductSlider extends Component {
           onCurrentImagePressed={index => this.clickPreview(index)}
         />
 
-        <Modal visible={openImage} transparent={true}>
+        <Modal
+          visible={openImage}
+          transparent={true}
+          onRequestClose={() => this.setState({openImage: false})}>
           <ImageViewer
             imageUrls={previewImage}
             backgroundColor={colors.white}
@@ -53,7 +56,7 @@ export default class ProductSlider extends Component {
             enableSwipeDown
             onSwipeDown={() => this.setState({openImage: false})}
           />
-        </Modal>
+        </Modal> */}
       </View>
     );
   }

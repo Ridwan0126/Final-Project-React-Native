@@ -1,11 +1,45 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Alert} from 'react-native';
 import {Logo} from '../../assets';
 import {Inputan, Jarak, Tombol} from '../../components';
 import {colors, fonts, responsiveHeight, responsiveWidth} from '../../utils';
+import {loginUser} from '../../actions/AuthAction';
+import {connect} from 'react-redux';
 
-export default class Login extends Component {
+class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+    };
+  }
+
+  login = () => {
+    const {email, password} = this.state;
+    console.log('loggggg', email, password);
+    if (email && password) {
+      this.props.dispatch(loginUser(email, password));
+      console.log('login', loginUser);
+    } else {
+      Alert.alert('Error', 'Guys!! Udah Bener Belom? Benerin Dulu Dong!');
+    }
+  };
+
+  componentDidUpdate(prevProps) {
+    const {loginResult} = this.props;
+    console.log('logggggiiinnnnnn', loginResult);
+    if (loginResult && prevProps.loginResult !== loginResult) {
+      this.props.navigation.replace('MainApp');
+    }
+  }
+
   render() {
+    const {email, password} = this.state;
+    console.log('loggggg11112344', email, password);
+    const {loginLoading} = this.props;
+
     return (
       <View style={styles.pages}>
         <View style={styles.logo}>
@@ -13,10 +47,26 @@ export default class Login extends Component {
           <Text style={styles.textBlues}> Sign In </Text>
         </View>
         <View style={styles.cardLogin}>
-          <Inputan label="Email" />
-          <Inputan label="Password" secureTextEntry />
+          <Inputan
+            label="Email"
+            value={email}
+            onChangeText={email => this.setState({email})}
+          />
+          <Inputan
+            label="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={password => this.setState({password})}
+          />
           <Jarak height={25} />
-          <Tombol tittle="Login" type="text" padding={12} fontSize={19} />
+          <Tombol
+            tittle="Login"
+            type="text"
+            padding={12}
+            fontSize={19}
+            loading={loginLoading}
+            onPress={() => this.login()}
+          />
         </View>
         <View style={styles.register}>
           <Text style={styles.textBlack}>
@@ -32,6 +82,14 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  loginLoading: state.AuthReducer.loginLoading,
+  loginResult: state.AuthReducer.loginResult,
+  loginError: state.AuthReducer.loginError,
+});
+
+export default connect(mapStateToProps, null)(Login);
 
 const styles = StyleSheet.create({
   pages: {
